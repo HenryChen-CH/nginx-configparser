@@ -152,7 +152,7 @@ bool NginxConfigParser::Parse(std::istream* config_file, NginxConfig* config) {
   config_stack.push(config);
   TokenType last_token_type = TOKEN_TYPE_START;
   TokenType token_type;
-  int left_bracket = 0;
+  int left_bracket = 0, pair_num = 0;
   while (true) {
     std::string token;
     token_type = ParseToken(config_file, &token);
@@ -186,7 +186,7 @@ bool NginxConfigParser::Parse(std::istream* config_file, NginxConfig* config) {
         break;
       }
     } else if (token_type == TOKEN_TYPE_STATEMENT_END) {
-      if (last_token_type != TOKEN_TYPE_NORMAL) {
+      if (last_token_type != TOKEN_TYPE_NORMAL || config_stack.top()->statements_.back().get()->tokens_.size()%2 != 0) {
         // Error.
         break;
       }
