@@ -27,3 +27,7 @@ TEST_F(NginxStringConfigTest, NestedConfigUnbalanceBracket) {
 TEST_F(NginxStringConfigTest, NestedConfigBalanceBracket) {
 	EXPECT_TRUE(ParseString("server { listen 80;}"));
 }
+
+TEST_F(NginxStringConfigTest, NestedConfigMissValue) {
+	EXPECT_FALSE(ParseString("server { listen;}"));
+}
